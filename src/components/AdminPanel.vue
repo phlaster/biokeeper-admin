@@ -6,6 +6,7 @@ import {coreClient}  from '../utils/axios';
 import {getPrettyDate} from '../utils/prettyDate';
 
 import CreateKitModal from './modals/CreateKitModal.vue'; // добавляем
+import CreateResearchModal from './modals/CreateResearchModal.vue';
 
 
 const authStore = useAuthStore();
@@ -41,6 +42,11 @@ const handleCreateKitModal = (isVisible: boolean) => {
   isCreateKitModalVisible.value = isVisible;
 };
 
+
+const isCreateResearchModalVisible = ref(false);
+const handleCreateResearchModal = (isVisible: boolean) => {
+    isCreateResearchModalVisible.value = isVisible;
+};
 
 
 
@@ -84,6 +90,14 @@ onMounted(async () => {
         <h1>Role: {{ authStore?.role?.name }}</h1>
 
         <h2>Список исследований</h2>
+
+        <CreateResearchModal
+        v-if="isCreateResearchModalVisible"
+        title="Создать новое исследование"
+        @close="handleCreateResearchModal(false)"
+        @submit="UpdateResearches"
+        />
+
         <table class="styled-table">
             <tr>
                 <th>
@@ -102,7 +116,7 @@ onMounted(async () => {
                 </td>
             </tr>
         </table>
-        <button>Создать исследование</button>
+        <button @click="handleCreateResearchModal(true)">Создать набор</button>
 
 
         <CreateKitModal
