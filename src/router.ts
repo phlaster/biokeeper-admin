@@ -4,6 +4,7 @@ import LoginForm from './components/LoginForm.vue';
 import KitPage from './components/KitPage.vue';
 import RegistrationForm from './components/RegistrationForm.vue';
 import AdminPanel from './components/AdminPanel.vue';
+import ResearchPage from './components/ResearchPage.vue';
 
 
 const routes: RouteRecordRaw[] = [
@@ -16,7 +17,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/researches/:id',
     name: 'research',
-    component: KitPage
+    component: ResearchPage
   },
   { 
     path: '/login', 
