@@ -109,7 +109,7 @@ onMounted(async () => {
             </tr>
             <tr v-for="research in researches" :key="research.id">
                 <td>
-                <a class="link" @click.prevent="router.push(`/research/${research.id}`)">{{ research.name }}</a>
+                <a class="link" @click.prevent="router.push(`/researches/${research.id}`)">{{ research.name }}</a>
                 </td>
                 <td>
                 {{ research.status }}
@@ -150,7 +150,7 @@ onMounted(async () => {
                     {{ kit.id }}
                 </td>
                 <td>
-                    <a class="link" @click.prevent="router.push(`/kit/${kit.id}`)">{{ kit.unique_hex }}</a>
+                    <a class="link" @click.prevent="router.push(`/kits/${kit.id}`)">{{ kit.unique_hex }}</a>
                 </td>
                 <td>
                     {{ kit.n_qrs }}
