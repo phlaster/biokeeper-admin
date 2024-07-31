@@ -78,12 +78,6 @@ onMounted(async () => {
 
 
 <template>
-    <CreateKitModal
-    v-if="isCreateKitModalVisible"
-    title="Создать новый набор"
-    @close="handleCreateKitModal(false)"
-    @submit="UpdateKits"
-    />
 
     <div>
         <h1>User: {{ authStore?.username }}</h1>
@@ -110,6 +104,13 @@ onMounted(async () => {
         </table>
         <button>Создать исследование</button>
 
+
+        <CreateKitModal
+        v-if="isCreateKitModalVisible"
+        title="Создать новый набор"
+        @close="handleCreateKitModal(false)"
+        @submit="UpdateKits"
+        />
 
         <h2>Созданные наборы</h2>
         <table class="styled-table">
