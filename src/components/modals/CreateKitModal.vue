@@ -44,7 +44,6 @@ const createKit = async (qrCount: number) => {
       return response.data;
     }
 
-    throw new Error('Не удалось создать набор. Код ответа: ' + response.status);
   } catch (error) {
     if (axios.isAxiosError(error)) {
       if (error.response?.status === 409) {
