@@ -3,7 +3,7 @@ import { useAuthStore } from '../store/auth';
 import { computed, onMounted, ref } from 'vue';
 import router from '../router';
 import {coreClient}  from '../utils/axios';
-import {getPrettyDate} from '../utils/prettyDate';
+import {getPrettyDateTime} from '../utils/prettyDate';
 
 import CreateKitModal from './modals/CreateKitModal.vue'; // добавляем
 import CreateResearchModal from './modals/CreateResearchModal.vue';
@@ -159,7 +159,7 @@ onMounted(async () => {
                     <a v-if="kit.owner_id" class="link" @click.prevent="router.push(`/user/${kit.owner_id}`)">{{ kit?.owner_name }}</a>
                 </td>
                 <td>
-                    {{ getPrettyDate(kit?.created_at) }}
+                    {{ getPrettyDateTime(kit?.created_at) }}
                 </td>
             </tr>
         </table>
