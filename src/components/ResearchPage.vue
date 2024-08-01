@@ -32,6 +32,8 @@ const handleChangeStatusOfResearchModal = (isVisible: boolean) => {
 
 
 const isStatusChangable = computed(() => {
+    if (!research.value) 
+        return false;
     return (research.value?.status  !== 'cancelled' && research.value?.status  !== 'ended');
 });
 
