@@ -1,15 +1,15 @@
 <template>
     <div class="modal-overlay" @click.self="closeModal">
       <div class="modal">
-        <header>
+        <header class="modal-header">
           <h2>{{ title }}</h2>
           <button @click="closeModal">X</button>
         </header>
         <div class="modal-body">
           <slot></slot>
         </div>
-        <footer>
-          <slot name="footer"></slot>
+        <footer class="modal-footer">
+          <slot name="footer" ></slot>
         </footer>
       </div>
     </div>
@@ -46,5 +46,18 @@
     max-width: 500px;
     width: 100%;
   }
-  </style>
+
+  .modal-footer {
+    margin-top: 10px;
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+
+</style>
   
