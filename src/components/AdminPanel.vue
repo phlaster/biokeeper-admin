@@ -97,7 +97,8 @@ onMounted(async () => {
         @close="handleCreateResearchModal(false)"
         @submit="UpdateResearches"
         />
-
+        
+        <button @click="handleCreateResearchModal(true)">Создать исследование</button>
         <table class="styled-table">
             <tr>
                 <th>
@@ -116,7 +117,6 @@ onMounted(async () => {
                 </td>
             </tr>
         </table>
-        <button @click="handleCreateResearchModal(true)">Создать набор</button>
 
 
         <CreateKitModal
@@ -125,8 +125,9 @@ onMounted(async () => {
         @close="handleCreateKitModal(false)"
         @submit="UpdateKits"
         />
-
+        
         <h2>Созданные наборы</h2>
+        <button @click="handleCreateKitModal(true)">Создать набор</button>
         <table class="styled-table">
             <tr>
                 <th>
@@ -163,7 +164,6 @@ onMounted(async () => {
                 </td>
             </tr>
         </table>
-        <button @click="handleCreateKitModal(true)">Создать набор</button>
 
 
     </div>
