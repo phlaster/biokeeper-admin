@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import { useAuthStore } from '../store/auth';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import router from '../router';
 import {coreClient}  from '../utils/axios';
 import {getPrettyDate} from '../utils/prettyDate';
+import ChangeStatusOfResearchModal from './modals/ChangeStatusOfResearchModal.vue';
 
 const authStore = useAuthStore();
 
@@ -24,7 +25,27 @@ interface Research {
 }
 const research = ref<Research>();
 
+const isChangeStatusOfResearchModalVisible = ref(false);
+const handleChangeStatusOfResearchModal = (isVisible: boolean) => {
+    isChangeStatusOfResearchModalVisible.value = isVisible;
+};
 
+
+const isStatusChangable = computed(() => {
+    return (research.value?.status  !== 'cancelled' && research.value?.status  !== 'ended');
+});
+
+const UpdateResearchData = async () => {
+    try {
+        const response = await coreClient.get('/researches/'+research.value?.id);
+        if (response.status === 200) {
+            research.value = response.data;
+        }
+    }
+    catch (error) {
+        console.error('Error fetching research data:', error);
+    }
+}
 
 onMounted(async () => {
     if (!authStore.accessToken && authStore.role && authStore.role.name !== 'admin') {
@@ -44,6 +65,14 @@ onMounted(async () => {
 
 
 <template>
+        <ChangeStatusOfResearchModal
+        v-if="isChangeStatusOfResearchModalVisible"
+        title="Изменить статус исследования"
+        :research_id="String(research?.id)"
+        :current_status="String(research?.status)"
+        @close="handleChangeStatusOfResearchModal(false)"
+        @submit="UpdateResearchData"
+        />
         <div v-if="research" class="research-details">
             <h1 class="research-name">{{ research?.name }}</h1>
             <p class="research-comment">{{ research?.comment }}</p>
@@ -55,6 +84,7 @@ onMounted(async () => {
                 <p><strong>Необходимо подтверждение:</strong> {{ research?.approval_required ? 'Да' : 'Нет' }}</p>
             </div>
         </div>
+        <button @click="handleChangeStatusOfResearchModal(true)" v-if="isStatusChangable">Изменить статус исследования</button>
 </template>
 
 <style scoped>
