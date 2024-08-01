@@ -5,6 +5,7 @@ import router from '../router';
 import {coreClient}  from '../utils/axios';
 import {getPrettyDate} from '../utils/prettyDate';
 import ChangeStatusOfResearchModal from './modals/ChangeStatusOfResearchModal.vue';
+import axios from 'axios';
 
 const authStore = useAuthStore();
 
@@ -57,8 +58,17 @@ onMounted(async () => {
     else{
         try {
             const response = await coreClient.get<Research>('/researches/'+router.currentRoute.value.params.id);
-                research.value = response.data;
+            research.value = response.data;
+            
+            if (research.value?.created_by != String(authStore.user_id)) {
+                router.push('/panel');
+            }
         } catch (error) {
+            if (axios.isAxiosError(error)) {
+                if (error.response?.status === 404) {
+                    router.push('/panel');
+                }
+            }
             console.error('Error fetching kit details:', error);
         }
     }
