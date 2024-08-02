@@ -6,9 +6,52 @@ import {coreClient}  from '../utils/axios';
 import {getPrettyDate} from '../utils/prettyDate';
 import ChangeStatusOfResearchModal from './modals/ChangeStatusOfResearchModal.vue';
 import axios from 'axios';
+import ListOfPendingRequestsModal from './modals/ListOfPendingRequestsModal.vue';
+import ListOfAcceptedParticipants from './modals/ListOfAcceptedParticipants.vue';
 
 const authStore = useAuthStore();
 
+
+interface User {
+    user_id: string;
+    username: string;
+}
+
+const pendingRequests = ref<User[]>([]);
+
+const UpdatePendingRequests = async () => {
+    try {
+        const response = await coreClient.get<User[]>('/researches/' + `${research.value?.id}` + '/pending_requests');
+        pendingRequests.value = response.data;
+    } catch (error) {
+        console.error('Error fetching pending requests:', error);
+    }
+}
+
+const isListOfPendingRequestsModalVisible = ref(false);
+const handleListOfPendingRequestsModal = (isVisible: boolean) => {
+    if (isVisible)
+        UpdatePendingRequests();
+    isListOfPendingRequestsModalVisible.value = isVisible;
+};
+
+const acceptedParticipants = ref<User[]>([]);
+
+const UpdateAcceptedParticipants = async () => {
+    try {
+        const response = await coreClient.get<User[]>('/researches/' + `${research.value?.id}` + '/accepted_participants');
+        acceptedParticipants.value = response.data;
+    } catch (error) {
+        console.error('Error fetching accepted participants:', error);
+    }
+}
+
+const isListOfAcceptedParticipantsModalVisible = ref(false);
+const handleListOfAcceptedParticipantsModal = (isVisible: boolean) => {
+    if (isVisible)
+        UpdateAcceptedParticipants();
+    isListOfAcceptedParticipantsModalVisible.value = isVisible;
+};
 
 interface Research {
     name: string;
@@ -32,10 +75,10 @@ const handleChangeStatusOfResearchModal = (isVisible: boolean) => {
 };
 
 
-const isStatusChangable = computed(() => {
+const isResearchActive = computed(() => {
     if (!research.value) 
         return false;
-    return (research.value?.status  !== 'cancelled' && research.value?.status  !== 'ended');
+    return (research.value?.status  !== 'canceled' && research.value?.status  !== 'ended');
 });
 
 const UpdateResearchData = async () => {
@@ -73,6 +116,7 @@ onMounted(async () => {
         }
     }
 });
+
 </script>
 
 
@@ -85,6 +129,25 @@ onMounted(async () => {
         @close="handleChangeStatusOfResearchModal(false)"
         @submit="UpdateResearchData"
         />
+
+        <ListOfPendingRequestsModal
+        v-if="isListOfPendingRequestsModalVisible"
+        title='Запросы на участие исследовании'
+        :research_id="String(research?.id)"
+        :users="pendingRequests"
+        @close="handleListOfPendingRequestsModal(false)"
+        @submit="UpdatePendingRequests"
+        />
+
+        <ListOfAcceptedParticipants
+        v-if="isListOfAcceptedParticipantsModalVisible"
+        title='Участники исследования'
+        :research_id="String(research?.id)"
+        :users="acceptedParticipants"
+        @close="handleListOfAcceptedParticipantsModal(false)"
+        @submit="UpdateAcceptedParticipants"
+        />
+
         <div v-if="research" class="research-details">
             <h1 class="research-name">{{ research?.name }}</h1>
             <p class="research-comment">{{ research?.comment }}</p>
@@ -96,7 +159,9 @@ onMounted(async () => {
                 <p><strong>Необходимо подтверждение:</strong> {{ research?.approval_required ? 'Да' : 'Нет' }}</p>
             </div>
         </div>
-        <button @click="handleChangeStatusOfResearchModal(true)" v-if="isStatusChangable">Изменить статус исследования</button>
+        <button @click="handleChangeStatusOfResearchModal(true)" v-if="isResearchActive">Изменить статус исследования</button>
+        <button v-if="research?.approval_required && isResearchActive" @click="handleListOfPendingRequestsModal(true)">Посмотреть запросы на участие в исследовании</button>
+        <button v-if="research?.approval_required" @click="handleListOfAcceptedParticipantsModal(true)">Посмотреть участников исследования</button>
 </template>
 
 <style scoped>
