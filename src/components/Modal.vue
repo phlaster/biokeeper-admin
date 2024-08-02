@@ -1,5 +1,6 @@
 <template>
-    <div class="modal-overlay" @click.self="closeModal">
+    <div class="modal-overlay">
+      <!--  @click.self="closeModal"> -->
       <div class="modal">
         <header class="modal-header">
           <h2>{{ title }}</h2>
