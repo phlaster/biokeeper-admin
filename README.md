@@ -1,2 +1,1 @@
-# opd
-## Admin panel branch
+# admin panel for biokeeper project

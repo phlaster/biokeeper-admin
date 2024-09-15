@@ -1,33 +1,26 @@
-<<<<<<< Updated upstream
-*.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
-=======
-__pycache__/
-logs/
-venv/
-serv_env/
+# Logs
+logs
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
-*.csv
 *.svg
-**/research*/**
 
-.vscode
-.cache.sqlite
+node_modules
+dist
+dist-ssr
+*.local
 
-postgres/data/
->>>>>>> Stashed changes
-
-.env
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
