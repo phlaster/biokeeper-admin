@@ -27,8 +27,8 @@ import Modal from '../Modal.vue';
 import { coreClient } from '../../utils/axios';
 import axios from 'axios';
   
-const props = defineProps<{
-title: string;
+const {title} = defineProps<{
+  title: string;
 }>();
 
 class ResearchAlreadyExistsException extends Error {

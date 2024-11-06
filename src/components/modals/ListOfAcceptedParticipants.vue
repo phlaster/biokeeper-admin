@@ -13,10 +13,9 @@
   </template>
   
 <script lang="ts" setup>
-import { ref } from 'vue';
 import Modal from '../Modal.vue';
 import { coreClient } from '../../utils/axios';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
   
 
 interface User {

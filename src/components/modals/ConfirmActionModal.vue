@@ -9,7 +9,7 @@
   <script lang="ts" setup>
   import Modal from '../Modal.vue';
   
-  const props = defineProps<{
+  const {title, message} = defineProps<{
     title: string;
     message: string;
   }>();
