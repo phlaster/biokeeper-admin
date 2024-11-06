@@ -17,7 +17,7 @@
   </template>
   
   <script lang="ts" setup>
-  const props = defineProps<{
+  const {title} = defineProps<{
     title: string;
   }>();
   
